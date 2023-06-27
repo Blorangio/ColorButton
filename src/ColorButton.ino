@@ -22,34 +22,59 @@ int blue = 0;
 int current = 0;
 int current2 = 0;
 int colors[5][3];
+bool cont3 = true;
 void loop() {
   if(current==0) {
     int analog = analogRead(A5);
     red = round((analog*255/4095));
     analogWrite(D4, red);
+    if(!cont3) {
+      colors[current2][0] = red;
+    }
   } else if(current==1) {
     int analog = analogRead(A5);
-    red = round((analog*255/4095));
-    analogWrite(D5, red);
+    green = round((analog*255/4095));
+    analogWrite(D5, green);
+    if(!cont3) {
+      colors[current2][1] = green;
+    }
   } else {
     int analog = analogRead(A5);
-    red = round((analog*255/4095));
-    analogWrite(D6, red);
+    blue = round((analog*255/4095));
+    analogWrite(D6, blue);
+    if(!cont3) {
+      colors[current2][2] = blue;
+    }
   }
   if(digitalRead(D0)==HIGH&&!cont) {
-    Serial.println("Button Down");
     onOff = !onOff;
     current+=1;
+    if(current==4) {
+      current = 0;
+    }
     cont=true;
   }
   if(digitalRead(D0)==LOW) {
     cont = false;
   }
   if(digitalRead(D1)==HIGH&&!cont2) {
-    Serial.println("Button Down2");
     onOff2 = !onOff2;
     current2+=1;
     cont2=true;
+    if(current2==5) {
+      cont3 = false;
+      current2 = 0;
+    }
+    if(cont3) {
+      colors[current2][0] = red;
+      colors[current2][1] = green;
+      colors[current2][2] = blue;
+      current = 0;
+    } else {
+      red = colors[current2][0];
+      green = colors[current2][1];
+      blue = colors[current2][2];
+    }
   }
   if(digitalRead(D1)==LOW) {
     cont2 = false;
