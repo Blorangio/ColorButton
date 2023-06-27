@@ -10,6 +10,7 @@ void loop();
 SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
 void setup() {
+  pinMode(D1, INPUT);
   pinMode(A5, INPUT);
   pinMode(D0, INPUT);
   pinMode(D4, OUTPUT);
@@ -22,10 +23,14 @@ void setup() {
 }
 bool cont = false;
 bool onOff = false;
+bool cont2 = false;
+bool onOff2 = false;
 int red = 0;
 int green = 0;
 int blue = 0;
 int current = 0;
+int current2 = 0;
+int colors[5][3];
 void loop() {
   if(current==0) {
     int analog = analogRead(A5);
@@ -48,5 +53,14 @@ void loop() {
   }
   if(digitalRead(D0)==LOW) {
     cont = false;
+  }
+  if(digitalRead(D1)==HIGH&&!cont2) {
+    Serial.println("Button Down");
+    onOff2 = !onOff;
+    current2+=1;
+    cont2=true;
+  }
+  if(digitalRead(D0)==LOW) {
+    cont2 = false;
   }
 }
