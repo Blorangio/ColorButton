@@ -46,12 +46,12 @@ void loop() {
     cont = false;
   }
   if(digitalRead(D1)==HIGH&&!cont2) {
-    Serial.println("Button Down");
-    onOff2 = !onOff;
+    Serial.println("Button Down2");
+    onOff2 = !onOff2;
     current2+=1;
     cont2=true;
   }
-  if(digitalRead(D0)==LOW) {
+  if(digitalRead(D1)==LOW) {
     cont2 = false;
   }
 }
